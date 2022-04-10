@@ -51,8 +51,9 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnCadastrar:
                 Cadastrar();
             case R.id.btnVoltar:
-               // IrLogin();
+               IrLogin();
             default:
+                Log.d( "Erro", "onClick: Oh ceus, deu erro" );
                 break;
         }
     }
@@ -83,18 +84,23 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                         .setValue( usuario ).addOnCompleteListener( new OnCompleteListener<Void>() { //com o ID do usuario que salvamos(obj), para confirmar se foi correto
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
+                                        //por algum motivo o c´´odigo nao ta vindo aqui para confirmar sucesso? Oh Well
+                                        //o codigo vai continuar aqui por precaucao e pra caso de correçao necessaria ja estar aqui
+
                                         if (task.isSuccessful()) { //se o usuario foi salvo corretamente no banco de dados
                                             //notificaç~~ao de sucesso na tela
                                             Log.d( "teste", "onComplete: PORQUE TU TA AQUI???" );
 
                                             //por algum motivo o c´´odigo nao ta vindo aqui para confirmar sucesso? Oh Well
                                             Toast.makeText( Cadastro.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG ).show();
-                                            //IrLogin(); //Voltar ao login p´´os cadastro
+                                            IrLogin(); //Voltar ao login p´´os cadastro
                                         } else {
                                             Toast.makeText( Cadastro.this, "Erro ao cadastrar Usuário", Toast.LENGTH_LONG ).show();
                                         }
                                     }
                                 } );
+                                //como ele n ta entrando na  verificacao anterior, mas por precaucao, vai o IrLogin aqui
+                                IrLogin(); //Voltar ao login p´´os cadastro
                             } else { //Caso dados n~~ao tenham sido sequer tentado de salvos
                                 Toast.makeText( Cadastro.this, "Erro ao cadastrar Usuário", Toast.LENGTH_LONG ).show();
                             }
