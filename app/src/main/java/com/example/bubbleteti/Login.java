@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,9 +22,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private Button login, cadastro; //Bot~~oes
     private EditText email, senha;
+    //private TextView uTexto;
 
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -40,8 +41,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         email = (EditText) findViewById( R.id.txtEmail );
         senha = (EditText) findViewById( R.id.txtSenha );
 
+        //uTexto = (TextView) findViewById( R.id.txtUser );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //uTexto.setText( "E-mail Logado: " + currentUser.getEmail() );
+    }
 
     @Override
     public void onClick(View view) {
@@ -71,8 +80,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText( Login.this, "Logado com Sucesso!", Toast.LENGTH_LONG ).show();
-                        //IrHome() quando implementada
+                        Toast.makeText( Login.this, "Logado com Sucesso!\n" +"E-mail: " + user.getEmail().toString(), Toast.LENGTH_LONG ).show();
+                        IrInicio();// quando implementada
+                        //uTexto.setText( "E-mail Logado: " + user.getEmail() );
                     } else {
                         Toast.makeText( Login.this, "Erro ao logar! Tente novamente!", Toast.LENGTH_LONG ).show();
                     }
@@ -82,6 +92,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    private void IrInicio(){
+
+        startActivity( new Intent( this, Inicio.class ) );
+    }
 
     private Boolean Validar(String e, String s) {
         if (e.isEmpty()) {
