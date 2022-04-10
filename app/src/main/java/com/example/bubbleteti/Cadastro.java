@@ -51,7 +51,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnCadastrar:
                 Cadastrar();
             case R.id.btnVoltar:
-                IrLogin();
+               // IrLogin();
             default:
                 break;
         }
@@ -73,8 +73,10 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) { //se os dados foram salvos sem problema
-
                                 Usuario usuario = new Usuario( e, s ); //usuario armazenado
+
+                                //teste de msg
+                                Toast.makeText( Cadastro.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG ).show();
 
                                 FirebaseDatabase.getInstance().getReference( "Usuario" ) //instanciar banco de dados com o tipo de dados usuario
                                         .child( FirebaseAuth.getInstance().getCurrentUser().getUid() ) //´pegar o usuario salvo e comparar
@@ -84,8 +86,10 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                         if (task.isSuccessful()) { //se o usuario foi salvo corretamente no banco de dados
                                             //notificaç~~ao de sucesso na tela
                                             Log.d( "teste", "onComplete: PORQUE TU TA AQUI???" );
+
+                                            //por algum motivo o c´´odigo nao ta vindo aqui para confirmar sucesso? Oh Well
                                             Toast.makeText( Cadastro.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG ).show();
-                                            IrLogin(); //Voltar ao login p´´os cadastro
+                                            //IrLogin(); //Voltar ao login p´´os cadastro
                                         } else {
                                             Toast.makeText( Cadastro.this, "Erro ao cadastrar Usuário", Toast.LENGTH_LONG ).show();
                                         }
