@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name = "header">#b7adc3</color>
+    <color name = "fundo">#C1CAC5</color>
+    <color name = "fundoSobretom">#dae3e0</color>
+    <color name = "botão">#9e91ad</color> <!-- Também é usado de fonte escura -->
+    <color name = "acentoRosa">#cebce3</color>
+    <color name = "acentoVerde">#d9e2df</color>
+    <color name = "botãoSecundário">#aca0b9</color>
+    <color name = "fonteRodapé">#d3c7e2</color>
+    <color name = "fonteClara">#9e91ad</color>
+    <color name = "fonteEscura">#80669e</color>
+    <color name="fonteAzul">#462a67</color>
+
 </resources>
