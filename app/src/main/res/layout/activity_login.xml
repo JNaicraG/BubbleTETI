@@ -76,8 +76,8 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="56dp"
             android:text="Login"
-            android:textSize="14sp"
             android:textColor="@color/fonteRodapé"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txtSenha"
             app:layout_constraintTop_toBottomOf="@+id/txtSenha" />
@@ -93,14 +93,30 @@
             android:layout_marginBottom="56dp"
             android:backgroundTint="@color/botãoSecundário"
             android:text="Cadastrar"
-            android:textSize="14sp"
             android:textColor="@color/fonteRodapé"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/txtSenha"
             app:layout_constraintHorizontal_bias="0.534"
             app:layout_constraintStart_toEndOf="@+id/btnLogin"
             app:layout_constraintTop_toBottomOf="@+id/txtSenha" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="194dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:text="Esqueceu sua Senha?"
+        android:textColor="@color/fonteEscura"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
