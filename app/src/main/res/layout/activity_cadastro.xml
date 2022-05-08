@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,7 +41,8 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/txtEmailC"
             app:layout_constraintStart_toStartOf="@+id/txtEmailC"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmailC" />
+            app:layout_constraintTop_toBottomOf="@+id/txtEmailC"
+            tools:ignore="Autofill,HardcodedText" />
 
         <EditText
             android:id="@+id/txtEmailSenhaRep"
@@ -57,7 +59,8 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/txtSenhaC"
             app:layout_constraintStart_toStartOf="@+id/txtSenhaC"
-            app:layout_constraintTop_toBottomOf="@+id/txtSenhaC" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSenhaC"
+            tools:ignore="Autofill,TextFields" />
 
         <Button
             android:id="@+id/btnVoltar"

@@ -260,7 +260,7 @@
                 android:layout_marginVertical="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
-                android:text="<- Anterior | Próxima ->"
+                android:text="Anterior | Próxima"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />

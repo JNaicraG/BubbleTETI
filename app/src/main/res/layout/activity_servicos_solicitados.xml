@@ -19,7 +19,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -327,7 +327,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="<- Anterior | Próxima ->"
+                android:text="Anterior | Próxima"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
