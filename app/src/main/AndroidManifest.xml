@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BubbleTETI">
         <activity
+            android:name=".ServicosSolicitados"
+            android:exported="false" />
+        <activity
             android:name=".Pagamento"
             android:exported="false" />
         <activity
