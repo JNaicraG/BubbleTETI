@@ -121,8 +121,9 @@
                     android:background="@color/botão"
                     android:text="Preço"
                     android:textSize="16sp"
-                    tools:layout_editor_absoluteX="-2dp"
-                    tools:layout_editor_absoluteY="-1dp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView6"
@@ -146,7 +147,7 @@
                 android:background="@color/header"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Forma de Pagamento"
+                android:text="Forma de Pagamento  V"
                 android:textAlignment="center"
                 android:textColor="@color/fonteAzul"
                 android:textSize="14sp"
@@ -294,4 +295,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

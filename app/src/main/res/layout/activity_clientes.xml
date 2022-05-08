@@ -38,13 +38,13 @@
             android:layout_marginTop="48dp"
             android:text="Solicitar Serviço"
             android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
             app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayout4"
             android:layout_width="464dp"
             android:layout_height="306dp"
             android:background="@color/acentoVerde"
