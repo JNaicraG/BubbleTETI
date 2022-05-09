@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BubbleTETI">
         <activity
+            android:name=".Clientes"
+            android:exported="false" />
+        <activity
+            android:name=".servicoSolicitadoFunc"
+            android:exported="false" />
+        <activity
             android:name=".ServicosSolicitados"
             android:exported="false" />
         <activity

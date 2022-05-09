@@ -51,7 +51,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnCadastrar:
                 Cadastrar();
             case R.id.btnVoltar:
-               IrLogin();
+                IrLogin();
             default:
                 Log.d( "Erro", "onClick: Oh ceus, deu erro" );
                 break;
@@ -93,14 +93,15 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
                                             //por algum motivo o c´´odigo nao ta vindo aqui para confirmar sucesso? Oh Well
                                             Toast.makeText( Cadastro.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG ).show();
-                                            IrLogin(); //Voltar ao login p´´os cadastro
+                                            //IrLogin(); //Voltar ao login p´´os cadastro
                                         } else {
                                             Toast.makeText( Cadastro.this, "Erro ao cadastrar Usuário", Toast.LENGTH_LONG ).show();
                                         }
                                     }
                                 } );
                                 //como ele n ta entrando na  verificacao anterior, mas por precaucao, vai o IrLogin aqui
-                                IrLogin(); //Voltar ao login p´´os cadastro
+                                Log.d("Teste","Tamo voltando");
+                                //IrLogin(); //Voltar ao login p´´os cadastro
                             } else { //Caso dados n~~ao tenham sido sequer tentado de salvos
                                 Toast.makeText( Cadastro.this, "Erro ao cadastrar Usuário", Toast.LENGTH_LONG ).show();
                             }

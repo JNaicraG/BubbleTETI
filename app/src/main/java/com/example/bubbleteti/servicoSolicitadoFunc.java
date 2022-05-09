@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Clientes extends AppCompatActivity {
+public class servicoSolicitadoFunc extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_clientes );
+        setContentView( R.layout.activity_servico_solicitado_func );
     }
 }
