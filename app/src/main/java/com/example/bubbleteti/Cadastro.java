@@ -62,8 +62,10 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.btnCadastrar:
                 CadastrarUsuário();
+                break;
             case R.id.btnVoltar:
                 IrLogin();
+                break;
             default:
                 Log.d( "Erro", "onClick: Oh ceus, deu erro" );
                 break;

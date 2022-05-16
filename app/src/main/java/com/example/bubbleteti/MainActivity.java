@@ -1,6 +1,5 @@
 package com.example.bubbleteti;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,11 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +18,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button entrar;
+    private Button entrar, empresa;
     private FirebaseFirestore db;
 
     @Override
@@ -35,14 +30,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         entrar = (Button) findViewById( R.id.btnEntrar );
         entrar.setOnClickListener( this );
+
+        empresa = (Button) findViewById( R.id.btnEmpresa );
+        empresa.setOnClickListener( this );
     }
 
     @Override
     public void onClick(View view) {
-        Log.d( "Teste", "onClick: Entrando na tela de Login" );
-        startActivity( new Intent(this, Login.class ) );
-        //CriarEmpresa();
-        AtualizarEmpresa();
+
+        /*switch (view.getId()) {
+            case R.id.btnEntrar:
+                Log.d( "Teste", "onClick: Entrando na tela de Login" );
+                startActivity( new Intent(this, Login.class ) );
+                //CriarEmpresa();
+                break;
+            case R.id.btnEmpresa:*/
+                Log.d( "Teste", "onClick: Entrando na tela de EMPRESAS" );
+                startActivity( new Intent(this, Empresa.class) );
+                /*break;
+            default:
+                Log.d( "Erro", "onClick: Oh ceus, deu erro" );
+                break;
+        }*/
+        Log.d( "Teste", "onClick: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS" );
+
+        //AtualizarEmpresa();
     }
 
 
