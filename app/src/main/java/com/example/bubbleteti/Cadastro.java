@@ -13,17 +13,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cadastro extends AppCompatActivity implements View.OnClickListener {
 
     private Button voltar, cadastrar; //Bot~~oes
     private EditText email, senha, senhaRep;
-
+    private EditText nome, cpf;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         setContentView( R.layout.activity_cadastro );
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         cadastrar = (Button) findViewById( R.id.btnCadastrar );
         cadastrar.setOnClickListener( this );
@@ -42,6 +52,8 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         senha = (EditText) findViewById( R.id.txtSenhaC );
         senhaRep = (EditText) findViewById( R.id.txtEmailSenhaRep );
 
+        email = (EditText) findViewById( R.id.txtNome);
+        senha = (EditText) findViewById( R.id.txtCPF );
     }
 
 
@@ -49,7 +61,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCadastrar:
-                Cadastrar();
+                CadastrarUsuário();
             case R.id.btnVoltar:
                 IrLogin();
             default:
@@ -62,7 +74,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         startActivity( new Intent( this, Login.class ) );
     }
 
-    private void Cadastrar() {
+    private void CadastrarUsuário() {
         String e = email.getText().toString().trim();
         String s = senha.getText().toString().trim();
         String sR = senhaRep.getText().toString().trim();
@@ -79,8 +91,31 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                 //teste de msg
                                 Toast.makeText( Cadastro.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG ).show();
 
-                                FirebaseDatabase.getInstance().getReference( "Usuario" ) //instanciar banco de dados com o tipo de dados usuario
-                                        .child( FirebaseAuth.getInstance().getCurrentUser().getUid() ) //´pegar o usuario salvo e comparar
+                                Map<String,Object> user = new HashMap<>(); //Hash do usuário criado agora
+                                user.put("E-mail",email); //pegar e-mail
+                                user.put( "UserID", FirebaseAuth.getInstance().getCurrentUser().getUid().toString() ); //pegar id que acabou de ser cadastrado com o logado agora
+
+                                //Adiciona pro banco
+                                db.collection("Usuários")
+                                        .add(user)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) { //Se deu certo
+                                                Log.d( "teste", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() { //Se deu errado
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("teste", "Error adding document", e);
+                                            }
+                                        });
+
+
+                                //instanciar banco de dados com o tipo de dados usuario
+                                //´pegar o usuario salvo e comparar
+                                FirebaseDatabase.getInstance().getReference( "Usuario" )
+                                        .child( FirebaseAuth.getInstance().getCurrentUser().getUid() )
                                         .setValue( usuario ).addOnCompleteListener( new OnCompleteListener<Void>() { //com o ID do usuario que salvamos(obj), para confirmar se foi correto
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -101,13 +136,35 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                 } );
                                 //como ele n ta entrando na  verificacao anterior, mas por precaucao, vai o IrLogin aqui
                                 Log.d("Teste","Tamo voltando");
-                                //IrLogin(); //Voltar ao login p´´os cadastro
+                                CadastrarCliente();
+                                IrLogin(); //Voltar ao login p´´os cadastro
                             } else { //Caso dados n~~ao tenham sido sequer tentado de salvos
                                 Toast.makeText( Cadastro.this, "Erro ao cadastrar Usuário", Toast.LENGTH_LONG ).show();
                             }
                         }
                     } );
         }
+    }
+
+    private void CadastrarCliente(){
+        Map<String,Object> cliente = new HashMap<>();
+        cliente.put("Nome", nome);
+        cliente.put("CPF",cpf.toString());
+        cliente.put("UserID",db.collection( "Usuários").document().getId());
+        db.collection("Clientes")
+                .add(cliente)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) { //Se deu certo
+                        Log.d( "teste", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() { //Se deu errado
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("teste", "Error adding document", e);
+                    }
+                });
     }
 
     private Boolean Validar(String e, String s, String sR) {

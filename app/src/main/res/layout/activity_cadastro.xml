@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/header"
     tools:context=".Cadastro">
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -19,97 +20,145 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@color/fundo"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:layout_editor_absoluteX="-1dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-
-        <EditText
-            android:id="@+id/txtSenhaC"
-            style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
-            android:layout_width="300dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@color/fundoSobretom"
-            android:ems="10"
-            android:hint="Senha"
-            android:inputType="textPassword"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/txtEmailC"
-            app:layout_constraintStart_toStartOf="@+id/txtEmailC"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmailC"
-            tools:ignore="Autofill,HardcodedText" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/txtEmailSenhaRep"
-            style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@color/fundoSobretom"
-            android:ems="10"
-            android:hint="Repetir Senha"
-            android:inputType="textPassword"
-            android:paddingLeft="56dp"
-            android:paddingRight="56dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/txtSenhaC"
-            app:layout_constraintStart_toStartOf="@+id/txtSenhaC"
-            app:layout_constraintTop_toBottomOf="@+id/txtSenhaC"
-            tools:ignore="Autofill,TextFields" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/fundo">
 
-        <Button
-            android:id="@+id/btnVoltar"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="56dp"
-            android:backgroundTint="@color/botãoSecundário"
-            android:text="Voltar"
-            android:textSize="14sp"
-            android:textColor="@color/fonteRodapé"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/txtEmailSenhaRep"
-            app:layout_constraintStart_toEndOf="@+id/btnCadastrar"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmailSenhaRep"
-            app:layout_constraintVertical_bias="1.0" />
 
-        <EditText
-            android:id="@+id/txtEmailC"
-            style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:background="@color/fundoSobretom"
-            android:ems="10"
-            android:hint="E-mail"
-            android:inputType="textEmailAddress"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/txtSenhaC"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/fundoSobretom"
+                    android:ems="10"
+                    android:hint="Senha"
+                    android:inputType="textPassword"
+                    android:textColor="@color/fonteClara"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/txtEmailC"
+                    app:layout_constraintStart_toStartOf="@+id/txtEmailC"
+                    app:layout_constraintTop_toBottomOf="@+id/txtEmailC"
+                    tools:ignore="Autofill,HardcodedText" />
 
-        <Button
-            android:id="@+id/btnCadastrar"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="56dp"
-            android:text="Cadastrar"
-            android:textSize="14sp"
-            android:textColor="@color/fonteRodapé"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txtEmailSenhaRep"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmailSenhaRep"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/txtEmailSenhaRep"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/fundoSobretom"
+                    android:ems="10"
+                    android:hint="Repetir Senha"
+                    android:inputType="textPassword"
+                    android:paddingLeft="56dp"
+                    android:paddingRight="56dp"
+                    android:textColor="@color/fonteClara"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/txtSenhaC"
+                    app:layout_constraintStart_toStartOf="@+id/txtSenhaC"
+                    app:layout_constraintTop_toBottomOf="@+id/txtSenhaC"
+                    tools:ignore="Autofill,TextFields" />
+
+                <Button
+                    android:id="@+id/btnVoltar"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="56dp"
+                    android:backgroundTint="@color/botãoSecundário"
+                    android:text="Voltar"
+                    android:textColor="@color/fonteRodapé"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/txtEmailSenhaRep"
+                    app:layout_constraintStart_toEndOf="@+id/btnCadastrar"
+                    app:layout_constraintTop_toBottomOf="@+id/txtEmailSenhaRep"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <EditText
+                    android:id="@+id/txtEmailC"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/fundoSobretom"
+                    android:ems="10"
+                    android:hint="E-mail"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/fonteClara"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtCPF" />
+
+                <Button
+                    android:id="@+id/btnCadastrar"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="56dp"
+                    android:text="Cadastrar"
+                    android:textColor="@color/fonteRodapé"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtEmailSenhaRep"
+                    app:layout_constraintTop_toBottomOf="@+id/txtEmailSenhaRep"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <EditText
+                    android:id="@+id/txtNome"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/fundoSobretom"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Name"
+                    android:textColor="@color/fonteClara"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/txtCPF"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/fundoSobretom"
+                    android:ems="10"
+                    android:hint="CPF"
+                    android:inputType="number"
+                    android:textColor="@color/fonteClara"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNome" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
