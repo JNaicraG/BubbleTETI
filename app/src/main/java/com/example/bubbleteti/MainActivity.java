@@ -38,20 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
-        /*switch (view.getId()) {
+        switch (view.getId()) {
             case R.id.btnEntrar:
                 Log.d( "Teste", "onClick: Entrando na tela de Login" );
                 startActivity( new Intent(this, Login.class ) );
                 //CriarEmpresa();
                 break;
-            case R.id.btnEmpresa:*/
+            case R.id.btnEmpresa:
                 Log.d( "Teste", "onClick: Entrando na tela de EMPRESAS" );
                 startActivity( new Intent(this, Empresa.class) );
-                /*break;
+                break;
             default:
                 Log.d( "Erro", "onClick: Oh ceus, deu erro" );
                 break;
-        }*/
+        }
         Log.d( "Teste", "onClick: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS" );
 
         //AtualizarEmpresa();

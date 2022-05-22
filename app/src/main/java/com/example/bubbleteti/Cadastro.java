@@ -52,8 +52,8 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         senha = (EditText) findViewById( R.id.txtSenhaC );
         senhaRep = (EditText) findViewById( R.id.txtEmailSenhaRep );
 
-        email = (EditText) findViewById( R.id.txtNome);
-        senha = (EditText) findViewById( R.id.txtCPF );
+        nome = (EditText) findViewById( R.id.txtNome);
+        cpf = (EditText) findViewById( R.id.txtCPF );
     }
 
 
@@ -62,6 +62,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.btnCadastrar:
                 CadastrarUsuário();
+                CadastrarCliente();
                 break;
             case R.id.btnVoltar:
                 IrLogin();

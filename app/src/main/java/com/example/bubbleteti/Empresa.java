@@ -82,6 +82,7 @@ public class Empresa extends AppCompatActivity  implements View.OnClickListener{
 
         //Colocar no BD
         db.collection( "Empresas" ).document("Empresa").set( empresa );
+
                 /*.addOnSuccessListener( new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
