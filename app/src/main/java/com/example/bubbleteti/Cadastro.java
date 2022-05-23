@@ -19,9 +19,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +37,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
     private EditText nome, cpf;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    //private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +64,19 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
+
+        String e = email.getText().toString().trim();
+        String s = senha.getText().toString().trim();
+        String sR = senhaRep.getText().toString().trim();
+        String n = nome.getText().toString().trim();
+        String c = cpf.getText().toString().trim();
+        Boolean valido = Validar( e, s, sR, n, c );
         switch (view.getId()) {
             case R.id.btnCadastrar:
-                CadastrarUsuário();
-                CadastrarCliente();
+                if (valido) {
+                    CadastrarUsuário(e,s);
+                    CadastrarCliente();
+                }
                 break;
             case R.id.btnVoltar:
                 IrLogin();
@@ -77,13 +91,9 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         startActivity( new Intent( this, Login.class ) );
     }
 
-    private void CadastrarUsuário() {
-        String e = email.getText().toString().trim();
-        String s = senha.getText().toString().trim();
-        String sR = senhaRep.getText().toString().trim();
 
-        Boolean valido = Validar( e, s, sR );
-        if (valido) {
+    private void CadastrarUsuário(String e, String s) {
+
             mAuth.createUserWithEmailAndPassword( e, s ) //salvar email e senha
                     .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                         @Override
@@ -95,16 +105,19 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                 Toast.makeText( Cadastro.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG ).show();
 
                                 Map<String,Object> user = new HashMap<>(); //Hash do usuário criado agora
-                                user.put("E-mail",email); //pegar e-mail
-                                user.put( "UserID", FirebaseAuth.getInstance().getCurrentUser().getUid().toString() ); //pegar id que acabou de ser cadastrado com o logado agora
+                                user.put("E-mail",email.getText().toString().trim()); //pegar e-mail
+                                user.put( "UserID", task.getResult().getUser().getUid() ); //pegar id que acabou de ser cadastrado com o logado agora
 
+                                db.collection( "Usuários" ).document(email.getText().toString().trim()).set( user );
                                 //Adiciona pro banco
-                                db.collection("Usuários")
+                                /*db.collection("Usuários")
                                         .add(user)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) { //Se deu certo
-                                                Log.d( "teste", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+                                                //Log.d("Teste","OnClick ID: " + mAuth.getUid().toString());
+                                                //Log.d( "teste", "DocumentSnapshot added with ID: " + documentReference.getId());
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() { //Se deu errado
@@ -112,7 +125,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                             public void onFailure(@NonNull Exception e) {
                                                 Log.w("teste", "Error adding document", e);
                                             }
-                                        });
+                                        });*/
 
 
                                 //instanciar banco de dados com o tipo de dados usuario
@@ -146,19 +159,23 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                             }
                         }
                     } );
-        }
+
     }
 
     private void CadastrarCliente(){
+
         Map<String,Object> cliente = new HashMap<>();
-        cliente.put("Nome", nome);
-        cliente.put("CPF",cpf.toString());
-        cliente.put("UserID",db.collection( "Usuários").document().getId());
-        db.collection("Clientes")
-                .add(cliente)
+        cliente.put("Nome", nome.getText().toString().trim());
+        cliente.put("CPF",cpf.getText().toString().trim());
+        cliente.put( "E-mail", db.collection( "Usuários" ).document(email.getText().toString().trim()));
+        //cliente.put("UserID",userID);
+        db.collection("Clientes").document(cpf.getText().toString().trim()).set( cliente );
+        //usar set invés de add pra ter um id customizado
+                /*.add(cliente)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) { //Se deu certo
+
                         Log.d( "teste", "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 })
@@ -167,11 +184,21 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                     public void onFailure(@NonNull Exception e) {
                         Log.w("teste", "Error adding document", e);
                     }
-                });
+                });*/
     }
 
-    private Boolean Validar(String e, String s, String sR) {
+    private Boolean Validar(String e, String s, String sR,String n, String c) {
 
+        if (n.isEmpty()) {
+            nome.setError( "Preencha o Nome" );
+            nome.requestFocus();
+            return false;
+        }
+        if (c.isEmpty()) {
+            cpf.setError( "Preencha o CPF" );
+            cpf.requestFocus();
+            return false;
+        }
         if (e.isEmpty()) {
             email.setError( "Preencha o E-mail" );
             email.requestFocus();

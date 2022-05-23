@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BubbleTETI">
         <activity
+            android:name=".AlterarCliente"
+            android:exported="false" />
+        <activity
             android:name=".Empresa"
             android:exported="false" />
         <activity

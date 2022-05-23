@@ -88,12 +88,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     }
                 }
             } );
-
         }
     }
 
     private void IrInicio(){
-
         startActivity( new Intent( this, Inicio.class ) );
     }
 

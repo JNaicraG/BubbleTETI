@@ -36,11 +36,9 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
         bInicio.setOnClickListener( this );
     }
 
-
-
     @Override
     public void onClick(View view) {
-        startActivity( new Intent(this, Login.class) );
+        startActivity( new Intent( this, AlterarCliente.class ) );
+        //startActivity( new Intent(this, Login.class) );
     }
-
 }
