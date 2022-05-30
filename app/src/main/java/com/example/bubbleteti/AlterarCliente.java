@@ -1,5 +1,6 @@
 package com.example.bubbleteti;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,9 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AlterarCliente extends AppCompatActivity implements View.OnClickListener {
+public class AlterarCliente extends AppCompatActivity implements View.OnClickListener { //View.OnFocusChangeListener
 
-    private Button atualizar, voltar, excluir; //Bot~~oes
+    private Button atualizar, voltar, excluir, pesquisar; //Bot~~oes
     private EditText nome, cpf, email;
     private ArrayList<ClienteBeans> clienteArrayList;
     private FirebaseAuth mAuth;
@@ -44,6 +47,9 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
 
         atualizar = (Button) findViewById( (R.id.btnAtualizarCliente) );
         atualizar.setOnClickListener( this );
+
+        pesquisar = (Button) findViewById( (R.id.btnPesquisar) );
+        pesquisar.setOnClickListener( this );
 
         excluir = (Button) findViewById( (R.id.btnExcluirCliente) );
         excluir.setOnClickListener( this );
@@ -72,6 +78,9 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
             case R.id.btnVoltarCliente:
                 Voltar();
                 break;
+            case R.id.btnPesquisar:
+                Pesquisar();
+                break;
             default:
                 Log.d( "Erro", "onClick: Oh ceus, deu erro" );
                 break;
@@ -83,7 +92,56 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
     private void Pesquisar(){
         //DocumentReference clienteDoc = db.collection( "Clientes" ).document(email.getText().toString().trim());
 
+        //db.collection( "Clientes" ).document((String) cpf.getText())
+        //Toast.makeText(AlterarCliente.this,"Entrando na pesquisa!",Toast.LENGTH_SHORT).show();
+        Log.d("Teste", "Entrou na pesquisa");
+        String c = cpf.toString();
+        if(!c.isEmpty()) {
+            //DocumentReference docRef = db.collection( "Clientes" ).document( getIntent().getStringExtra( "c" ));
+            DocumentReference docRef = db.collection( "Clientes" ).document( c);
+            docRef.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d( "Teste", "Nome" + nome.getText().toString() );
+                            cpf.setText( (String) document.get( "CPF" ) );
+                            nome.setText( (String) document.get( "Nome" ) );
+                            email.setText( (String) document.get( "E-mail" ) );
+                        } else {
+                            Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar CPF!", Toast.LENGTH_SHORT ).show();
+                        }
+                    } else {
 
+                        Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar CPF!", Toast.LENGTH_SHORT ).show();
+                    }
+                }
+            } );
+        } else {
+            cpf.setError( "Preencha um cpf válido" );
+            cpf.requestFocus();
+        }
+        /*docRef.get().addOnCompleteListener(new addOnCompleteListener<DocumentSnapshot>()){
+            @Override
+            public void OnComplete(@NonNull Task<DocumentSnapshot> task){
+                if(task.isSuccessful){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        cpf.setText( (String)document.get("CPF") );
+                        nome.setText( (String)document.get("Nome") );
+                        email.setText( (String)document.get("E-mail"));
+                    } else{
+                        Toast.makeText(AlterarCliente.this,"Erro ao tentar encontrar CPF!",Toast.LENGTH_SHORT).show();
+                    }
+                } else{
+                    
+                    Toast.makeText(AlterarCliente.this,"Erro ao tentar encontrar CPF!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        /*
         db.collection( "Clientes" ).addSnapshotListener( new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -103,7 +161,7 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
 
         cpf.setText( clienteB.getCpf().toString() );
         nome.setText( clienteB.getNome().toString() );
-        email.setText( clienteB.getEmail().toString() );
+        email.setText( clienteB.getEmail().toString() );*/
     }
 
     private void Atualizar(){
@@ -132,4 +190,10 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
     private void Voltar(){
         startActivity( new Intent( this, MainActivity.class ) );
     }
+/*
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        if(!view.findViewById( R.id.txtCPFCC ).hasFocus())
+            Pesquisar();
+    }*/
 }

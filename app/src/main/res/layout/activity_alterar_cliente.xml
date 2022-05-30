@@ -51,7 +51,7 @@
         <EditText
             android:id="@+id/txtCPFCC"
             style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
-            android:layout_width="300dp"
+            android:layout_width="199dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@color/fundoSobretom"
@@ -60,7 +60,7 @@
             android:inputType="number"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintHorizontal_bias="0.259"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNomeCC" />
 
@@ -69,11 +69,10 @@
             style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="Atualizar"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/txtCPFCC"
+            app:layout_constraintStart_toStartOf="@+id/txtEmailCC"
             app:layout_constraintTop_toBottomOf="@+id/txtEmailCC" />
 
         <Button
@@ -82,11 +81,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/botãoSecundário"
             android:text="Excluir"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/txtCPFCC"
+            app:layout_constraintEnd_toEndOf="@+id/txtEmailCC"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/btnAtualizarCliente"
             app:layout_constraintTop_toBottomOf="@+id/txtEmailCC" />
@@ -105,5 +103,21 @@
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="@+id/txtCPFCC"
             app:layout_constraintTop_toBottomOf="@+id/btnAtualizarCliente" />
+
+        <Button
+            android:id="@+id/btnPesquisar"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="-24dp"
+            android:backgroundTint="@color/botãoSecundário"
+            android:text="Pesquisar"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/txtNomeCC"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/txtCPFCC"
+            app:layout_constraintTop_toBottomOf="@+id/txtNomeCC" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

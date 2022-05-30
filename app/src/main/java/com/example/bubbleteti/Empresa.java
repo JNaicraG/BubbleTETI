@@ -1,5 +1,6 @@
 package com.example.bubbleteti;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,7 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -49,6 +54,7 @@ public class Empresa extends AppCompatActivity  implements View.OnClickListener{
         cnpj = (EditText) findViewById( R.id.txtCNPJ );
         data = (EditText) findViewById( R.id.txtData );
 
+        Pesquisar();
 
     }
 
@@ -69,7 +75,30 @@ public class Empresa extends AppCompatActivity  implements View.OnClickListener{
                 break;
         }
     }
+    private void Pesquisar(){
+        DocumentReference docRef = db.collection( "Empresas" ).document( "Empresa");
+        docRef.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d( "Teste", "Nome" + nome.getText().toString() );
+                        nomeF.setText( (String) document.get( "Nome Fantasia" ) );
+                        cnpj.setText( (String) document.get( "CNPJ" ) );
+                        data.setText( (String) document.get( "Criação" ) );
+                        nome.setText( (String) document.get( "Nome" ) );
+                        email.setText( (String) document.get( "E-mail" ) );
+                    } else {
+                        Toast.makeText( Empresa.this, "Erro ao tentar encontrar CPF!", Toast.LENGTH_SHORT ).show();
+                    }
+                } else {
 
+                    Toast.makeText( Empresa.this, "Erro ao tentar encontrar CPF!", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        } );
+    }
     private void Criar(){
         //Adicionar dados
         Map<String,Object> empresa = new HashMap<>();
