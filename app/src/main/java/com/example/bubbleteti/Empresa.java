@@ -90,11 +90,11 @@ public class Empresa extends AppCompatActivity  implements View.OnClickListener{
                         nome.setText( (String) document.get( "Nome" ) );
                         email.setText( (String) document.get( "E-mail" ) );
                     } else {
-                        Toast.makeText( Empresa.this, "Erro ao tentar encontrar CPF!", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( Empresa.this, "Erro ao tentar encontrar CNPJ!", Toast.LENGTH_SHORT ).show();
                     }
                 } else {
 
-                    Toast.makeText( Empresa.this, "Erro ao tentar encontrar CPF!", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( Empresa.this, "Erro ao tentar encontrar CNPJ!", Toast.LENGTH_SHORT ).show();
                 }
             }
         } );

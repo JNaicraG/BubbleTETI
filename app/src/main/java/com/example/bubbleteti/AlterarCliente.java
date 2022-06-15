@@ -17,12 +17,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -36,7 +39,8 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
     private ArrayList<ClienteBeans> clienteArrayList;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-
+    private CollectionReference cliente,usuario;
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate( savedInstanceState );
@@ -61,10 +65,14 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
         nome = (EditText) findViewById( R.id.txtNomeCC );
         cpf = (EditText) findViewById( R.id.txtCPFCC );
 
+        cliente = db.collection( "Clientes" );
+        usuario = db.collection( "Usuários" );
+
         clienteArrayList = new ArrayList<ClienteBeans>();
 
-    }
+    Pesquisar();
 
+    }
 
     @Override
     public void onClick(View view) {
@@ -95,10 +103,39 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
         //db.collection( "Clientes" ).document((String) cpf.getText())
         //Toast.makeText(AlterarCliente.this,"Entrando na pesquisa!",Toast.LENGTH_SHORT).show();
         Log.d("Teste", "Entrou na pesquisa");
-        String c = cpf.toString();
+        //String c = cpf.getText().toString();
+        Log.d("Teste", "E-mail testado: "+ mAuth.getCurrentUser().getEmail().toString().trim());
+        Query query = db.collection( "Clientes" ).whereEqualTo( "E-mail", mAuth.getCurrentUser().getEmail().toString().trim() );
+        Log.d("Teste", "QUERRY AAAAAAAAAAA");
+        query.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    Log.d("Teste", "SUCESSO");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Log.d("Teste","Ok, tá pegando os documento");
+                            Log.d( "Teste", "Documento" + document.getData().toString() );
+                            Toast.makeText( AlterarCliente.this, "Documento:" + document.getData().toString(), Toast.LENGTH_SHORT ).show();
+                            cpf.setText( (String) document.get( "CPF" ) );
+                            nome.setText( (String) document.get( "Nome" ) );
+                            email.setText( (String) document.get("E-mail") );
+                        } else {
+                            Log.d("Teste", "AAAAAAAAAAAAAAA");
+                        }
+                    }
+                    Toast.makeText( AlterarCliente.this, "Sucesso na busca!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    Log.d("Teste", "Documento nao");
+                    Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar Usuário!", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        } )     ;
+        Log.d("Teste", "Documento sAIU DO QUERYYYY");
+/*
         if(!c.isEmpty()) {
             //DocumentReference docRef = db.collection( "Clientes" ).document( getIntent().getStringExtra( "c" ));
-            DocumentReference docRef = db.collection( "Clientes" ).document( c);
+            DocumentReference docRef = db.collection( "Clientes" ).document(c);
             docRef.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -164,31 +201,169 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
         email.setText( clienteB.getEmail().toString() );*/
     }
 
-    private void Atualizar(){
-        Map<String,Object> cliente = new HashMap<>();
-        cliente.put("Nome", nome.getText().toString().trim());
-        cliente.put( "CPF" , cpf.getText().toString().trim());
+    private void Atualizar() {
+        Map<String, Object> cliente = new HashMap<>();
+        cliente.put( "Nome", nome.getText().toString().trim() );
+        cliente.put( "CPF", cpf.getText().toString().trim() );
+        cliente.put( "E-mail", email.getText().toString().trim() );
+
+        Map<String, Object> usuario = new HashMap<>();
+        usuario.put( "E-mail", email.getText().toString().trim() );
+        //cliente.put( "UserID", mAuth.getCurrentUser().get );
         //String data = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         //empresa.put("Criação",data);
+        Log.d( "Teste", "ENTRANDO NA ATUALIZAÇÃO" );
+        //db.collection( "Clientes" ).document(cpf.getText().toString().trim()).update( cliente );
+        Log.d( "Teste", "Entrou na pesquisa" );
+        //String c = cpf.getText().toString();
+        Log.d( "Teste", "E-mail testado: " + mAuth.getCurrentUser().getEmail().toString().trim() );
+        Query q = db.collection( "Usuários" ).whereEqualTo( "E-mail", mAuth.getCurrentUser().getEmail().toString().trim() );
+        Log.d( "Teste", "QUERRY AAAAAAAAAAA" );
+        q.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.d( "Teste", "SUCESSO" );
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            id = document.getId();
+                            usuario.put("UserID", document.get("UserID").toString());
+                            Log.d( "Teste", "Ok, tá pegando os documento" );
+                            Log.d( "Teste", "Documento" + document.getData().toString() );
+                            Toast.makeText( AlterarCliente.this, "Documento:" + document.getData().toString(), Toast.LENGTH_SHORT ).show();
+                        } else {
+                            Log.d( "Teste", "AAAAAAAAAAAAAAA" );
+                        }
+                    }
+                    Toast.makeText( AlterarCliente.this, "Sucesso na busca!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    Log.d( "Teste", "Documento nao" );
+                    Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar Usuário!", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        } );
+        Log.d( "Teste", "Documento sAIU DO QUERYYYY" );
 
-        db.collection( "Clientes" ).document(cpf.getText().toString().trim()).update( cliente );
-
-        Toast.makeText(AlterarCliente.this,"Cliente " + nome.getText().toString().trim() + " atualizada com sucesso!",Toast.LENGTH_LONG ).show();
+        Query query = db.collection( "Clientes" ).whereEqualTo( "E-mail", mAuth.getCurrentUser().getEmail().toString().trim() );
+        Log.d( "Teste", "QUERRY AAAAAAAAAAA" );
+        query.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.d( "Teste", "SUCESSO" );
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Log.d( "Teste", "Ok, tá pegando os documento" );
+                            Log.d( "Teste", "Documento" + document.getData().toString() );
+                            Toast.makeText( AlterarCliente.this, "Documento:" + document.getData().toString(), Toast.LENGTH_SHORT ).show();
+                            db.collection( "Clientes" ).document( document.getId() ).set( cliente ).addOnCompleteListener( new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d( "Teste", "FOI OPORA" );
+                                    }
+                                }
+                            } );
+                            db.collection( "Usuários" ).document(id).set( usuario ).addOnCompleteListener( new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Log.d("Teste","SUCESSO CARAI");
+                                    }
+                                }
+                            } );
+                        } else {
+                            Log.d( "Teste", "AAAAAAAAAAAAAAA" );
+                        }
+                    }
+                    Toast.makeText( AlterarCliente.this, "Sucesso na busca!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    Log.d( "Teste", "Documento nao" );
+                    Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar Usuário!", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        } );
+        Log.d( "Teste", "Documento sAIU DO QUERYYYY" );
     }
-
     private void Excluir(){
-        db.collection( "Clientes" ).document(cpf.getText().toString().trim()).delete();
-        db.collection( "Usuários" ).document(email.getText().toString().trim()).delete();
+
         //mAuth.getCurrentUser().delete();
 
         //Descobrir como excluir usuário antes de só excluir o cliente
         //no caso, excluir um usuário que não o atualmente logado (isso dá pra fazer), como se isso fosse um
         Toast.makeText(AlterarCliente.this,"Cliente " + nome.getText().toString().trim() +" excluída com sucesso!",Toast.LENGTH_LONG ).show();
+
+        Query q = db.collection( "Usuários" ).whereEqualTo( "E-mail", mAuth.getCurrentUser().getEmail().toString().trim() );
+        Log.d( "Teste", "QUERRY AAAAAAAAAAA" );
+        q.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.d( "Teste", "SUCESSO" );
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            id = document.getId();
+                            Log.d( "Teste", "Ok, tá pegando os documento" );
+                            Log.d( "Teste", "Documento" + document.getData().toString() );
+                            Toast.makeText( AlterarCliente.this, "Documento:" + document.getData().toString(), Toast.LENGTH_SHORT ).show();
+                        } else {
+                            Log.d( "Teste", "AAAAAAAAAAAAAAA" );
+                        }
+                    }
+                    Toast.makeText( AlterarCliente.this, "Sucesso na busca!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    Log.d( "Teste", "Documento nao" );
+                    Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar Usuário!", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        } );
+        Log.d( "Teste", "Documento sAIU DO QUERYYYY" );
+
+        Query query = db.collection( "Clientes" ).whereEqualTo( "E-mail", mAuth.getCurrentUser().getEmail().toString().trim() );
+        Log.d( "Teste", "QUERRY AAAAAAAAAAA" );
+        query.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.d( "Teste", "SUCESSO" );
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Log.d( "Teste", "Ok, tá pegando os documento" );
+                            Log.d( "Teste", "Documento" + document.getData().toString() );
+                            Toast.makeText( AlterarCliente.this, "Documento:" + document.getData().toString(), Toast.LENGTH_SHORT ).show();
+                            db.collection( "Clientes" ).document( document.getId() ).delete( ).addOnCompleteListener( new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d( "Teste", "FOI OPORA" );
+                                    }
+                                }
+                            } );
+                            db.collection( "Usuários" ).document(id).delete().addOnCompleteListener( new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d( "Teste", "FOI OPORA2" );
+                                    }
+                                }
+                            } );
+                        } else {
+                            Log.d( "Teste", "AAAAAAAAAAAAAAA" );
+                        }
+                    }
+                    Toast.makeText( AlterarCliente.this, "Sucesso na busca!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    Log.d( "Teste", "Documento nao" );
+                    Toast.makeText( AlterarCliente.this, "Erro ao tentar encontrar Usuário!", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        } );
+        Log.d( "Teste", "Documento sAIU DO QUERYYYY" );
         Voltar();
     }
 
     private void Voltar(){
-        startActivity( new Intent( this, MainActivity.class ) );
+        startActivity( new Intent( this, Inicio.class ) );
     }
 /*
     @Override

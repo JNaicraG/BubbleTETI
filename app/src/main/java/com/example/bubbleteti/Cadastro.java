@@ -107,7 +107,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                 Map<String,Object> user = new HashMap<>(); //Hash do usuário criado agora
                                 user.put("E-mail",email.getText().toString().trim()); //pegar e-mail
                                 user.put( "UserID", task.getResult().getUser().getUid() ); //pegar id que acabou de ser cadastrado com o logado agora
-
+                                user.put( "Cliente", true ); //Tipo de conta criado para pesquisa e classificação posterior
                                 db.collection( "Usuários" ).document(email.getText().toString().trim()).set( user );
                                 //Adiciona pro banco
                                 /*db.collection("Usuários")
@@ -167,9 +167,11 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         Map<String,Object> cliente = new HashMap<>();
         cliente.put("Nome", nome.getText().toString().trim());
         cliente.put("CPF",cpf.getText().toString().trim());
-        cliente.put( "E-mail", db.collection( "Usuários" ).document(email.getText().toString().trim()));
+        cliente.put( "E-mail", email.getText().toString().trim() );
+        db.collection("Clientes").document().set( cliente );
+        //cliente.put( "E-mail", db.collection( "Usuários" ).document(email.getText().toString().trim()));
         //cliente.put("UserID",userID);
-        db.collection("Clientes").document(cpf.getText().toString().trim()).set( cliente );
+        //db.collection("Clientes").document(cpf.getText().toString().trim()).set( cliente );
         //usar set invés de add pra ter um id customizado
                 /*.add(cliente)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
