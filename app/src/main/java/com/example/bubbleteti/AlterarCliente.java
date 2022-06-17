@@ -256,7 +256,7 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
                             Log.d( "Teste", "Ok, tá pegando os documento" );
                             Log.d( "Teste", "Documento" + document.getData().toString() );
                             Toast.makeText( AlterarCliente.this, "Documento:" + document.getData().toString(), Toast.LENGTH_SHORT ).show();
-                            db.collection( "Clientes" ).document( document.getId() ).set( cliente ).addOnCompleteListener( new OnCompleteListener<Void>() {
+                            db.collection( "Clientes" ).document( document.getId() ).update( cliente ).addOnCompleteListener( new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
@@ -264,7 +264,7 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
                                     }
                                 }
                             } );
-                            db.collection( "Usuários" ).document(id).set( usuario ).addOnCompleteListener( new OnCompleteListener<Void>() {
+                            db.collection( "Usuários" ).document(id).update( usuario ).addOnCompleteListener( new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
@@ -284,6 +284,20 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
             }
         } );
         Log.d( "Teste", "Documento sAIU DO QUERYYYY" );
+
+        if (!email.getText().toString().matches( mAuth.getCurrentUser().getEmail().toString() )) {
+            mAuth.getCurrentUser().updateEmail( email.getText().toString().trim() ).addOnCompleteListener( new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Log.d("Teste","E-mail chave alterado com sucesso");
+                    } else {
+                        Log.d("Teste","Erro ao alterar chaves");
+                    }
+                }
+            } );
+        }
+
     }
     private void Excluir(){
 
@@ -318,7 +332,6 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
             }
         } );
         Log.d( "Teste", "Documento sAIU DO QUERYYYY" );
-
         Query query = db.collection( "Clientes" ).whereEqualTo( "E-mail", mAuth.getCurrentUser().getEmail().toString().trim() );
         Log.d( "Teste", "QUERRY AAAAAAAAAAA" );
         query.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
@@ -344,6 +357,14 @@ public class AlterarCliente extends AppCompatActivity implements View.OnClickLis
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Log.d( "Teste", "FOI OPORA2" );
+                                        mAuth.getCurrentUser().delete().addOnCompleteListener( new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Log.d( "Teste","Credencial excluída com sucesso" );
+                                                }
+                                            }
+                                        } );
                                     }
                                 }
                             } );
